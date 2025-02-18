@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {{ if .isLogged }}
+        <a href="/logout">Выйти</a>
+        <p>Приветствую {{ .Name }}!</p>
+        <p>Ваш уровень допуска: {{ .Type }}</p>
+        <a href="/create_ticket">Создать тикет</a>
+        {{ else }}
+            <a href="/registration">Регистрация</a>
+            <a href="/enter">Войти</a>
+        {{ end }}
+        {{ if eq .Type "Администратор" }}
+            <h2>Открытые тикеты:</h2>
+            <ul>
+                {{ range .Ticket }}
+                    <li>Заголовок: {{ .Description }}, Статус: {{ .Status }}, Создано: {{.Created}},Создатель {{.Creator}}</li>
+                {{ end }}
+            </ul>
+    {{ end }}
+</body>
+</html>

@@ -7,15 +7,36 @@ import (
 )
 
 type Customer struct {
-	ID       primitive.ObjectID `bson:"_id,omitempty"`
-	Name     string             `bson: "name`
-	Password string             `bson: "password`
-	Type_    string             `bson: "type`
+	ID                primitive.ObjectID   `bson:"_id,omitempty"`
+	Name              string               `bson: "name`
+	Password          string               `bson: "password`
+	Type_             string               `bson: "type`
+	AssignedTicketIDs []primitive.ObjectID `bson:"assignedTicketIDs,omitempty"`
 }
 
 type Ticket struct {
-	Creator     string    `bson: "creator"`
-	Created     time.Time `bson: "created"`
-	Description string    `bson: "description"`
-	Status      string    `bson: "status"`
+	ID          primitive.ObjectID `bson:"_id,omitempty"`
+	Creator     string             `bson: "creator"`
+	Created     time.Time          `bson: "created"`
+	Title       string             `bson: "title"`
+	Description string             `bson: "description"`
+	Status      string             `bson: "status"`
+}
+type Comment struct {
+	UserID    primitive.ObjectID `bson:"userID"`
+	Text      string             `bson:"text"`
+	CreatedAt time.Time          `bson:"createdAt"`
+}
+
+type Chat struct {
+	ID           primitive.ObjectID   `bson:"_id,omitempty"`
+	Participants []primitive.ObjectID `bson:"participants"`
+	Messages     []Message            `bson:"messages"`
+}
+
+
+type Message struct {
+	Sender    primitive.ObjectID `bson:"senderID"`
+	Text      string             `bson:"text"`
+	CreatedAt time.Time          `bson:"createdAt"`
 }

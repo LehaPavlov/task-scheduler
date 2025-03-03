@@ -129,7 +129,6 @@ func RequestEnter(c *gin.Context) {
 func RequestTicket() []structs.Ticket { // Добавил возврат ошибки
 	var Tickets []structs.Ticket
 
-	//  Важно: используйте bool, а не строку "False"
 	filter := bson.D{{"status", "open"}}
 
 	cursor, err := ticketCollection.Find(context.TODO(), filter)

@@ -17,6 +17,7 @@ func main() {
 	router.Use(sessions.Sessions("mysession", store))
 	router.LoadHTMLGlob("templates/*")
 	router.GET("/", middleware.AuthMiddleware(), render.RenderMainPage)
+	router.POST("/", request.Render_Ticket)
 	router.GET("/registration", render.RenderRegistration)
 	router.GET("/enter", render.RenderEnterPage)
 	router.POST("/registration", request.RegistrationRequest)

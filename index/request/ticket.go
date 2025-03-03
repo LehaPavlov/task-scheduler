@@ -9,6 +9,7 @@ import (
 
 	"github.com/gin-contrib/sessions"
 	"github.com/gin-gonic/gin"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
 func CreateTicket(c *gin.Context) {
@@ -16,15 +17,18 @@ func CreateTicket(c *gin.Context) {
 	nameInterface := session.Get("username")
 	name := nameInterface.(string)
 	description := c.PostForm("description")
-	if description == "" {
+	title := c.PostForm("title")
+	if description == "" || title == "" {
 		c.JSON(http.StatusOK, gin.H{
-			"message": "Форма пуста!",
+			"message": "Заполните все поля!",
 		})
 	}
 	ticket := structs.Ticket{
+		ID:          primitive.NewObjectID(),
 		Creator:     name,
 		Created:     time.Now(),
 		Description: description,
+		Title:       title,
 		Status:      "open",
 	}
 	err, result := ticketCollection.InsertOne(context.TODO(), ticket)

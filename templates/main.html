@@ -18,10 +18,15 @@
         {{ if eq .Type "Администратор" }}
             <h2>Открытые тикеты:</h2>
             <ul>
+                <form method="post">
                 {{ range .Ticket }}
-                    <li>Заголовок: {{ .Description }}, Статус: {{ .Status }}, Создано: {{.Created}},Создатель {{.Creator}}</li>
+                    <li>Заголовок: {{ .Title }},Комментарии: {{.Description}} Статус: {{ .Status }}, Создано: {{.Created}},Создатель {{.Creator}}</li>
+                    <input type="hidden" name="ticket_id" value="{{ .ID.Hex }}"> 
+
+                    <button type="submit">Взять</button>
                 {{ end }}
             </ul>
+        </form>
     {{ end }}
 </body>
 </html>

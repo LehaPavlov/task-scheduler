@@ -7,11 +7,11 @@ import (
 )
 
 type Customer struct {
-	ID                primitive.ObjectID   `bson:"_id,omitempty"`
-	Name              string               `bson: "name`
-	Password          string               `bson: "password`
-	Type_             string               `bson: "type`
-	AssignedTicketIDs []primitive.ObjectID `bson:"assignedTicketIDs,omitempty"`
+	ID             primitive.ObjectID `bson:"_id,omitempty"`
+	Name           string             `bson: "name`
+	Password       string             `bson: "password`
+	Type_          string             `bson: "type_`
+	AssignedTicket []Ticket           `bson:"AssignedTicketIDs,omitempty"`
 }
 
 type Ticket struct {
@@ -33,7 +33,6 @@ type Chat struct {
 	Participants []primitive.ObjectID `bson:"participants"`
 	Messages     []Message            `bson:"messages"`
 }
-
 
 type Message struct {
 	Sender    primitive.ObjectID `bson:"senderID"`

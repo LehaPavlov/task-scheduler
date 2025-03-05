@@ -9,7 +9,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RenderMainPage(c *gin.Context) {
+func MainPage(c *gin.Context) {
 	session := sessions.Default(c)
 	usernameInterface := session.Get("username")
 	typeUserInterface := session.Get("type")
@@ -46,29 +46,30 @@ func RenderMainPage(c *gin.Context) {
 		}
 	}
 
-	tickets := request.RequestTicket()
-
+	tickets := request.Ticket()
+	assigned_tickets := request.Assigned_tickets(c)
 	data := gin.H{
 		"isLogged": isLoggedIn,
 		"Name":     username,
 		"Type":     type_,
+		"Ticket":   tickets,
 	}
-	log.Println("Это type", type_)
+	log.Println("Это assigned tickets", assigned_tickets)
 	if type_ == "Администратор" {
-		data["Ticket"] = tickets
+		data["AssignedTickets"] = assigned_tickets.AssignedTicket
 	}
 
 	c.HTML(http.StatusOK, "main.html", data)
 }
 
-func RenderRegistration(c *gin.Context) {
+func Registration(c *gin.Context) {
 	c.HTML(http.StatusOK, "registration.html", nil)
 }
 
-func RenderEnterPage(c *gin.Context) {
+func EnterPage(c *gin.Context) {
 	c.HTML(http.StatusOK, "enter.html", nil)
 }
 
-func RenderCreateTicket(c *gin.Context) {
+func CreateTicket(c *gin.Context) {
 	c.HTML(http.StatusOK, "ticket.html", nil)
 }

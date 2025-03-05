@@ -45,7 +45,7 @@ func initiaseMongoDB() {
 	ticketCollection = client.Database("Task").Collection("ticket")
 }
 
-func RegistrationRequest(c *gin.Context) {
+func Registration(c *gin.Context) {
 	name := c.PostForm("name_user")
 	password := c.PostForm("password_user")
 	log.Println("Данные :", name, password)
@@ -93,7 +93,7 @@ func RegistrationRequest(c *gin.Context) {
 
 }
 
-func RequestEnter(c *gin.Context) {
+func Enter(c *gin.Context) {
 	name := c.PostForm("name_user")
 	password := c.PostForm("password_user")
 	if name == "" || password == "" {
@@ -126,7 +126,7 @@ func RequestEnter(c *gin.Context) {
 	})
 }
 
-func RequestTicket() []structs.Ticket { // Добавил возврат ошибки
+func Ticket() []structs.Ticket {
 	var Tickets []structs.Ticket
 
 	filter := bson.D{{"status", "open"}}
@@ -153,4 +153,21 @@ func RequestTicket() []structs.Ticket { // Добавил возврат оши�
 		return nil
 	}
 	return Tickets
+}
+
+func Assigned_tickets(c *gin.Context) structs.Customer {
+	var User structs.Customer
+	session := sessions.Default(c)
+	username := session.Get("username")
+
+	filter := bson.D{{"name", username}}
+	err := userCollection.FindOne(context.TODO(), filter).Decode(&User)
+	if err != nil {
+		if err == mongo.ErrNoDocuments {
+			log.Println("Пользователь не найден:", username)
+		} else {
+			log.Println("Ошибка при поиске пользователя:", err)
+		}
+	}
+	return User
 }
